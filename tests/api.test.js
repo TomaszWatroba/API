@@ -2,10 +2,11 @@ import { expect } from "chai";
 import pkg from "pactum";
 const { spec } = pkg;
 import "dotenv/config";
-import { baseURL, userID } from "../helpers/data.js";
+import { baseURL, userID, user, password } from "../helpers/data.js";
 
+let token_response;
 describe("Api tests", () => {
-  it("Get request", async () => {
+  it.skip("Get request", async () => {
     const response = await spec().get(`${baseURL}/BookStore/v1/Books`);
     //.inspect();
     const responseB = JSON.stringify(response.body);
@@ -30,11 +31,68 @@ describe("Api tests", () => {
 
   it.skip("Create a user", async () => {
     const response = await spec().post(`${baseURL}/Account/v1/User`).withBody({
-      userName: "TomaszTest",
-      password: process.env.SECRET_PASSWORD,
+      userName: user,
+      password: password,
     });
     //.inspect();
     expect(response.statusCode).to.eql(201);
   });
-  //
+
+  it.only("Generate token", async () => {
+    const response = await spec()
+      .post(`${baseURL}/Account/v1/GenerateToken`)
+      .withBody({
+        userName: user,
+        password: password,
+      });
+    //.inspect();
+    token_response = response.body.token;
+    console.log(token_response);
+  });
+
+  // it.only("check token", async () => {
+  //   console.log("token =" + token_response);
+  // });
+
+  it.only("add book", async () => {
+    console.log("token in addbook  " + token_response);
+    const response = await spec()
+      .post(`${baseURL}/BookStore/v1/Books`)
+      .withBearerToken(token_response)
+      .withBody({
+        userId: userID,
+        collectionOfIsbns: [
+          {
+            isbn: "9781449331818",
+          },
+        ],
+      });
+    console.log(response.body);
+    expect(response.statusCode).to.eql(201);
+  });
+
+  it.skip("check books in user", async () => {
+    const response = await spec()
+      .get(`${baseURL}/Account/v1/User/${userID}`)
+      .withBearerToken(token_response);
+    console.log(response.body);
+    expect(response.statusCode).to.eql(200);
+    console.log(response.body);
+  });
+
+  it.only("Delete all books", async () => {
+    const response = await spec()
+      .delete(`${baseURL}/BookStore/v1/Books?UserId=${userID}`)
+      .withBearerToken(token_response)
+      .inspect();
+    expect(response.statusCode).to.eql(204);
+  });
+
+  it.only("check the delete all books", async () => {
+    const response = await spec()
+      .get(`${baseURL}/BookStore/v1/Books?UserId=${userID}`)
+      .withBearerToken(token_response)
+      .inspect();
+    expect(response.statusCode).to.eql(200);
+  });
 });
