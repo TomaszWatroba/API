@@ -9,7 +9,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env: SECRET_PASSWORD:${{secrets.NEWGITHUB_SECRET}}
+    env:
+      SECRET_PASSWORD: ${{ secrets.NEWGITHUB_SECRET }} # Correct syntax for env
 
     strategy:
       matrix:
