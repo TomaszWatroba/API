@@ -1,5 +1,4 @@
 name: API-tests CI
-env: SECRET_PASSWORD:${{secrets.NEWGITHUB_SECRET}}
 on:
   push:
     branches: ["main"]
@@ -9,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    env: SECRET_PASSWORD:${{secrets.NEWGITHUB_SECRET}}
 
     strategy:
       matrix:
