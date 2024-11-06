@@ -33,4 +33,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: mochawesome
-          path: /home/runner/work/API/API/mochawesome-report/mochawesome.html
+          path: /home/runner/work/API/API/mochawesome-report/

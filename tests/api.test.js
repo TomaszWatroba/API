@@ -50,9 +50,9 @@ describe("Api tests", () => {
     console.log(token_response);
   });
 
-  // it.only("check token", async () => {
-  //   console.log("token =" + token_response);
-  // });
+  it.only("check token", async () => {
+    console.log("token =" + token_response);
+  });
 
   it.only("add book", async () => {
     console.log("token in addbook  " + token_response);
