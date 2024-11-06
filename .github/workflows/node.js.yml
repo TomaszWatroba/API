@@ -1,4 +1,4 @@
-name: Node.js CI
+name: API-tests CI
 env: SECRET_PASSWORD:${{secrets.NEWGITHUB_SECRET}}
 on:
   push:
