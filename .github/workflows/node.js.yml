@@ -29,3 +29,8 @@ jobs:
       - run: npm ci
 
       - run: npm test
+      - name: Use Node.js
+        uses: actions/upload-artifact@v4
+        with:
+          name: mochawesome
+          path: /home/runner/work/API/API/mochawesome-report/mochawesome.html
