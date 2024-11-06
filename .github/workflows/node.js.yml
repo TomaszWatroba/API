@@ -1,5 +1,5 @@
 name: Node.js CI
-env: SECRET_PASSWORD:${{secrets.SECRET_PASSWORD}}
+env: SECRET_PASSWORD:${{secrets.NEWGITHUB_SECRET}}
 on:
   push:
     branches: ["main"]
